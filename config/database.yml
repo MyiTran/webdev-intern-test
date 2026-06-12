@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: webdev_intern_test_production
-  username: webdev_intern_test
-  password: <%= ENV["WEBDEV_INTERN_TEST_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
