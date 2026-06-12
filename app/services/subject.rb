@@ -27,6 +27,6 @@ class Subject
   end
 
   def self.labels
-    LIST.to_h { |subject| [subject[:key], subject[:label]] }
+    LIST.to_h { |subject| [ subject[:key], subject[:label] ] }
   end
 end
