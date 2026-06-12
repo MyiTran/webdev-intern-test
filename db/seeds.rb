@@ -1,9 +1,32 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require "csv"
+
+csv_path = Rails.root.join("dataset", "diem_thi_thpt_2024.csv")
+
+Student.delete_all
+
+batch = []
+
+CSV.foreach(csv_path, headers: true) do |row|
+  batch << {
+    registration_number: row["sbd"],
+    math: row["toan"],
+    literature: row["ngu_van"],
+    foreign_language: row["ngoai_ngu"],
+    physics: row["vat_li"],
+    chemistry: row["hoa_hoc"],
+    biology: row["sinh_hoc"],
+    history: row["lich_su"],
+    geography: row["dia_li"],
+    civic_education: row["gdcd"],
+    foreign_language_code: row["ma_ngoai_ngu"],
+    created_at: Time.current,
+    updated_at: Time.current
+  }
+
+  if batch.size >= 5000
+    Student.insert_all(batch)
+    batch.clear
+  end
+end
+
+Student.insert_all(batch) unless batch.empty?
