@@ -1,0 +1,66 @@
+<section class="card">
+  <h2>Score Reports</h2>
+  <p class="muted">Statistics by score level for each subject.</p>
+
+  <div class="report-grid">
+    <% @report_data.each do |subject, data| %>
+      <% total = data.values.sum %>
+
+      <div class="report-card">
+        <h3><%= subject.label %></h3>
+
+        <% data.each do |level, count| %>
+          <% percent = total.positive? ? ((count.to_f / total) * 100).round(1) : 0 %>
+
+          <div class="bar-row">
+            <div class="bar-label">
+              <span>
+                <%= case level
+                    when :excellent then ">= 8"
+                    when :good then "6 - < 8"
+                    when :average then "4 - < 6"
+                    else "< 4"
+                    end %>
+              </span>
+              <strong><%= number_with_delimiter(count) %></strong>
+            </div>
+
+            <div class="bar-track">
+              <div class="bar-fill <%= level %>" style="width: <%= percent %>%"></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Top 10 Group A Students</h2>
+  <p class="muted">Group A total score = Math + Physics + Chemistry.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Registration Number</th>
+        <th>Math</th>
+        <th>Physics</th>
+        <th>Chemistry</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @top_students.each_with_index do |student, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= student.registration_number %></td>
+          <td><%= student.math %></td>
+          <td><%= student.physics %></td>
+          <td><%= student.chemistry %></td>
+          <td class="high-score"><%= [student.math, student.physics, student.chemistry].sum.round(2) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

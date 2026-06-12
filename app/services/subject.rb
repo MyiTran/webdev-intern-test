@@ -29,4 +29,8 @@ class Subject
   def self.labels
     LIST.to_h { |subject| [ subject[:key], subject[:label] ] }
   end
+
+  def self.group_a_keys
+    [ :math, :physics, :chemistry ]
+  end
 end

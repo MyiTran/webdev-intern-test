@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root "students#index"
 
-  get "students", to: "students#index"
+  resources :students, only: [ :index ]
+  resources :reports, only: [ :index ]
 
   get "up" => "rails/health#show", as: :rails_health_check
 

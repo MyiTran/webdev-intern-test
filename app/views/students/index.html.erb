@@ -1,33 +1,57 @@
-<h1>G-Scores</h1>
+<section class="card">
+  <h2>User Registration</h2>
 
-<%= form_with url: students_path, method: :get, local: true do %>
-  <%= label_tag :registration_number, "Số báo danh" %>
-  <%= text_field_tag :registration_number, params[:registration_number], placeholder: "Nhập số báo danh" %>
-  <%= submit_tag "Tra cứu" %>
-<% end %>
+  <%= form_with url: students_path, method: :get, local: true, class: "search-form" do %>
+    <%= label_tag :registration_number, "Registration Number:" %>
 
-<% if params[:registration_number].present? %>
-  <% if @student.present? %>
-    <h2>Kết quả</h2>
-    <p><strong>Số báo danh:</strong> <%= @student.registration_number %></p>
+    <div class="form-row">
+      <%= text_field_tag :registration_number, params[:registration_number], placeholder: "Enter registration number" %>
+      <%= submit_tag "Submit" %>
+    </div>
+  <% end %>
+</section>
 
-    <table>
+<section class="card">
+  <h2>Detailed Scores</h2>
+
+  <% if params[:registration_number].blank? %>
+    <p class="muted">Detailed view of search scores here!</p>
+  <% elsif @student.present? %>
+    <p class="student-id">
+      SBD:
+      <strong><%= @student.registration_number %></strong>
+    </p>
+
+    <% scores = @subjects.map { |subject| @student.public_send(subject.key) }.compact %>
+
+    <% if scores.any? %>
+      <p class="summary-score">
+        Average:
+        <strong><%= (scores.sum / scores.count).round(2) %></strong>
+      </p>
+    <% end %>
+
+    <table class="data-table">
       <thead>
         <tr>
-          <th>Môn</th>
-          <th>Điểm</th>
+          <th>Subject</th>
+          <th>Score</th>
         </tr>
       </thead>
       <tbody>
         <% @subjects.each do |subject| %>
+          <% score = @student.public_send(subject.key) %>
+
           <tr>
             <td><%= subject.label %></td>
-            <td><%= @student.public_send(subject.key).presence || "-" %></td>
+            <td class="<%= "high-score" if score.present? && score >= 8 %>">
+              <%= score.presence || "-" %>
+            </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p>Không tìm thấy số báo danh.</p>
+    <p class="error">Registration number not found.</p>
   <% end %>
-<% end %>
+</section>

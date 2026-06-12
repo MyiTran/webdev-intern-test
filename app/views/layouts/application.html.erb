@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Webdev Intern Test" %></title>
+    <title>G-Scores</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <header class="topbar">
+      <h1>G-Scores</h1>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Menu</h2>
+
+        <%= link_to "Dashboard", root_path, class: current_page?(root_path) ? "active" : "" %>
+        <%= link_to "Search Scores", students_path, class: current_page?(students_path) ? "active" : "" %>
+        <%= link_to "Reports", reports_path, class: current_page?(reports_path) ? "active" : "" %>
+        <span>Settings</span>
+      </aside>
+
+      <main class="content">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>
