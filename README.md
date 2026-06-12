@@ -6,6 +6,15 @@ G-Scores is a Ruby on Rails application that allows users to search for Vietnam 
 
 https://g-scores-ip1j.onrender.com
 
+> Note: The application is deployed on Render free tier. The first request may take a short time to wake up the server.
+
+## Demo Video
+
+To make the evaluation process easier, I have also included a short video demonstrating the deployed application running successfully on Render.
+
+Video:
+https://drive.google.com/file/d/1KltOTFf3OkSjFubmiizKMqEkJuhKZqTL/view?usp=sharing
+
 ## Features
 
 ### Search Scores
